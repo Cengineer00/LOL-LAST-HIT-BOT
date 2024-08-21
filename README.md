@@ -2,6 +2,7 @@
 
 This repository contains the code for a bot designed to automate the last-hitting process in League of Legends. The bot utilizes object detection techniques to identify and prioritize minions for last hits. The entire development process, from initial concept to final results, is documented in a [YouTube video](https://www.youtube.com/watch?v=tHWoz6xyk7k). 
 
+![](figures/futuristic.png)
 
 ## Features
 - **Object Detection**: Uses [YOLOv9]([https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://github.com/WongKinYiu/yolov9&ved=2ahUKEwj9tLOFwoaIAxVwBNsEHRT7C3EQFnoECCAQAQ&usg=AOvVaw2dg0KGJMx_HkdUYJo6MPyS](https://github.com/WongKinYiu/yolov9)) for detecting minions.
