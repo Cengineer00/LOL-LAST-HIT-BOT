@@ -1,1 +1,3 @@
 ./yolov9/*
+frames/*
+*.pyc
