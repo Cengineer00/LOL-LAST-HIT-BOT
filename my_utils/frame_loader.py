@@ -1,2 +1,0 @@
-class FrameLoader:
-    pass
