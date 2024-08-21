@@ -38,14 +38,14 @@ python main.py
 ### Parameters
 - **`monitor_idx`**: The index of the monitor to capture screenshots from (0 for primary monitor).
 - **`visualize`**: Set to `True` to enable visualization, `False` to disable.
-- **`minion_color_to_last_hit`**: Specify the color of minions to target (e.g., `blue`, `red`).
+- **`minion_color`**: Specify the color of minions to target (e.g., `blue`, `red`).
 - **`H`**: Half the height of the screen resolution.
 - **`W`**: Half the width of the screen resolution.
 
 
 Example:
    ```bash
-   python main.py --monitor_idx 0 --visualize True --minion_color_to_last_hit red --H 540 --W 960
+   python main.py --monitor_idx 0 --visualize True --minion_color red --H 540 --W 960
    ```
 ## Contributing
 
