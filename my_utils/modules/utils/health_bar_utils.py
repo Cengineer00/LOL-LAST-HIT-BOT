@@ -6,7 +6,7 @@ class HealthBarUtils:
     def __init__(
             self, 
             blue_bar_template_path = 'templates/health_bar_level_template.jpg',
-            red_bar_template_path = None,
+            red_bar_template_path = 'templates/red_health_bar_level_template.jpg',
             matching_threshold = 0.8,
             save_for_testing = False,
     ) -> None:
