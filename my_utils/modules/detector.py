@@ -1,7 +1,6 @@
 import numpy as np
 import torch
 
-from my_utils.health_bar_utils import HealthBarUtils
 import time
 
 import sys
@@ -24,7 +23,6 @@ class Detector:
         dnn = False,
         half = False,
         imgsz = (960, 960),
-
     ):
         
         self.model = DetectMultiBackend(weight_path, device=device, dnn=dnn, fp16=half)
@@ -35,7 +33,18 @@ class Detector:
             object_name: 0 for object_name in self.model.names.values()
         }
 
-        self.health_bar_utils = HealthBarUtils()
+    
+    def __call__(self, img):
+        red_minions, blue_minions, red_health_bars, blue_health_bars, cur_object_counts, debug_img = self.detect_objects(img)
+        detector_result = {
+            'red_minions': red_minions, 
+            'blue_minions': blue_minions, 
+            'red_health_bars': red_health_bars, 
+            'blue_health_bars': blue_health_bars, 
+            'cur_object_counts': cur_object_counts, 
+            'debug_img': debug_img, 
+        }
+        return detector_result
 
     def detect_objects(self, img):
 
@@ -50,7 +59,7 @@ class Detector:
         im /= 255  # 0 - 255 to 0.0 - 1.0
         if len(im.shape) == 3:
             im = im[None]  # expand for batch dim
-        print("--- detector time 1 %s seconds ---" % (time.time() - prev_time))
+        # print("--- detector time 1 %s seconds ---" % (time.time() - prev_time))
 
         prev_time = time.time()
         pred = self.model(im, augment=False, visualize=False)
@@ -58,7 +67,7 @@ class Detector:
         pred = pred[0][1] if isinstance(pred[0], list) else pred[0]
         pred = non_max_suppression(pred)
 
-        print("--- detector time 2 %s seconds ---" % (time.time() - prev_time))
+        # print("--- detector time 2 %s seconds ---" % (time.time() - prev_time))
 
         prev_time = time.time()
         annotator = Annotator(im0, line_width=1)
@@ -83,15 +92,11 @@ class Detector:
                         if 'minion' in self.names[c]:
                             red_minions.append((xyxy, self.names[c], conf))
                         else:
-                            health_level = self.health_bar_utils.get_health_level(health_bar_img=img[int(xyxy[1]):int(xyxy[3]), int(xyxy[0]):int(xyxy[2])], bar_color='red')
-                            red_health_bars.append((xyxy, health_level, conf))
+                            red_health_bars.append((xyxy, conf))
                     else:
                         if 'minion' in self.names[c]:
                             blue_minions.append((xyxy, self.names[c], conf))
                         else:
-                            health_level = self.health_bar_utils.get_health_level(health_bar_img=img[int(xyxy[1]):int(xyxy[3]), int(xyxy[0]):int(xyxy[2])], bar_color='blue')
-                            blue_health_bars.append((xyxy, health_level, conf))
-                        
-        print("--- detector time 3 %s seconds ---" % (time.time() - prev_time))
+                            blue_health_bars.append((xyxy, conf))
 
         return red_minions, blue_minions, red_health_bars, blue_health_bars, cur_object_counts, annotator.result()
