@@ -1,5 +1,5 @@
-
-
+from dataclasses import dataclass
+@dataclass
 class Minion:
 
     def __init__(
